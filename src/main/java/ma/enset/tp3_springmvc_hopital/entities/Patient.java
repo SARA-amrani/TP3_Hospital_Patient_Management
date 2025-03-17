@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Entity
-@Data  @Builder
+@Data  @Builder @NoArgsConstructor @AllArgsConstructor
 public class Patient {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,15 +22,5 @@ public class Patient {
     private boolean malade;
     private int score;
 
-    public Patient() {
-    }
 
-    public Patient(Long id, String nom, String prenom, Date dateNaissance, boolean malade, int score) {
-        this.id = id;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.dateNaissance = dateNaissance;
-        this.malade = malade;
-        this.score = score;
-    }
 }
