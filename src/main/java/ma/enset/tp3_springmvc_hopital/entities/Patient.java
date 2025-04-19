@@ -10,7 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-
+// Entite JPA Patient
 @Entity
 @Data  @Builder @NoArgsConstructor @AllArgsConstructor
 public class Patient {

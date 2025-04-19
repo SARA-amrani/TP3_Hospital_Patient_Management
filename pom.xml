@@ -50,6 +50,13 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- Base de données mysql -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- Lombok (Annotations Java) -->
         <dependency>
             <groupId>org.projectlombok</groupId>
