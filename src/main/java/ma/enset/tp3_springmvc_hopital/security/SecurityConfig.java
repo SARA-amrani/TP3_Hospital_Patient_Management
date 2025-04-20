@@ -40,7 +40,10 @@ public class SecurityConfig {
                 .exceptionHandling(exception -> exception
                         .accessDeniedPage("/notAuthorized")
                 )
-                .formLogin(Customizer.withDefaults()) // Active le formulaire de connexion
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .permitAll()
+                )
                 .build();
 
 
