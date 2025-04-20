@@ -35,4 +35,6 @@ public class HopitalApplication implements CommandLineRunner {
                 .malade(true)
                 .build();
     }
+
+    //CommandLineRunner commandLineRunner()
 }
