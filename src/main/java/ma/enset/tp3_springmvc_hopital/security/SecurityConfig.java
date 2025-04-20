@@ -33,10 +33,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/user/**").hasRole("USER")
+                        .requestMatchers("/admin/**").hasAnyRole("ADMIN", "USER")
                         .anyRequest().authenticated()
+                )
+                .exceptionHandling(exception -> exception
+                        .accessDeniedPage("/notAuthorized")
                 )
                 .formLogin(Customizer.withDefaults()) // Active le formulaire de connexion
                 .build();
+
+
     }
 }
  // @Bean : chaque methode utilise Bean c a d il va s'execute au demarrage
