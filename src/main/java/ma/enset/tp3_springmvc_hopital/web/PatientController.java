@@ -7,6 +7,7 @@ import ma.enset.tp3_springmvc_hopital.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -39,6 +40,7 @@ public class PatientController {
 
     // delete Patient
     @GetMapping("/admin/delete")
+    @PreAuthorize("hasRole('ROLE ADMIN')")
     public String delete(Long id, String keyword, int page) {
         patientRepository.deleteById(id);
         return "redirect:/user/index?page="+page+"&keyword="+keyword;
@@ -56,6 +58,7 @@ public class PatientController {
 
     // methode qui permet de retourner une vue
     @GetMapping("/formPatient")
+    @PreAuthorize("hasRole('ROLE ADMIN')")
     public String formPatient(Model model) {
         model.addAttribute("patient", new Patient());
         return "formPatient";
@@ -63,6 +66,7 @@ public class PatientController {
 
     // save Patient
     @PostMapping("/admin/save")
+    @PreAuthorize("hasRole('ROLE ADMIN')")
     public String save(Model model, @Valid Patient patient, BindingResult bindingResult,
                        @RequestParam(defaultValue = "0") int page,
                        @RequestParam(defaultValue ="") String keyword) {
@@ -74,6 +78,7 @@ public class PatientController {
     // editPatient
 
     @GetMapping("/admin/editPatient")
+    @PreAuthorize("hasRole('ROLE ADMIN')")
     public String editPatient(Model model, Long id, String keyword, int page) {
         Patient patient = patientRepository.findById(id).orElse(null);
         if (patient == null) throw new RuntimeException("Patient introuvable");
