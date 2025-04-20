@@ -35,8 +35,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/**").hasRole("USER")
                         .requestMatchers("/admin/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers("/webjars/**", "/h2-console/**").permitAll()
                         .anyRequest().authenticated()
                 )
+                .rememberMe(Customizer.withDefaults())
                 .exceptionHandling(exception -> exception
                         .accessDeniedPage("/notAuthorized")
                 )
@@ -45,8 +47,8 @@ public class SecurityConfig {
                         .permitAll()
                 )
                 .build();
-
-
     }
+
 }
+
  // @Bean : chaque methode utilise Bean c a d il va s'execute au demarrage
