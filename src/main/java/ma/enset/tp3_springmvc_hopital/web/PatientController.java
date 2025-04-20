@@ -37,6 +37,7 @@ public class PatientController {
         return "patients";
     }
 
+    // delete Patient
     @GetMapping("/delete")
     public String delete(Long id, String keyword, int page) {
         patientRepository.deleteById(id);
@@ -60,13 +61,26 @@ public class PatientController {
         return "formPatient";
     }
 
+    // save Patient
     @PostMapping("/save")
-    public String save(Model model, @Valid Patient patient, BindingResult bindingResult) {
+    public String save(Model model, @Valid Patient patient, BindingResult bindingResult,
+                       @RequestParam(defaultValue = "0") int page,
+                       @RequestParam(defaultValue ="") String keyword) {
         if (bindingResult.hasErrors()) return "formPatient";
         patientRepository.save(patient);
-        return "redirect:/formPatient";
+        return "redirect:/index?page="+page+"&keyword="+keyword;
     }
 
+    // editPatient
 
+    @GetMapping("/editPatient")
+    public String editPatient(Model model, Long id, String keyword, int page) {
+        Patient patient = patientRepository.findById(id).orElse(null);
+        if (patient == null) throw new RuntimeException("Patient introuvable");
+        model.addAttribute("patient",patient);
+        model.addAttribute("page",page);
+        model.addAttribute("keyword",keyword);
+        return "editPatient";
+    }
 
 }
