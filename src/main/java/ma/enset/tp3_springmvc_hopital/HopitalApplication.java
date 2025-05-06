@@ -7,8 +7,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 
 import java.util.Date;
 
@@ -29,6 +31,10 @@ public class HopitalApplication implements CommandLineRunner {
         //patientRepository.save(new Patient(null, "HOUDA","EL AMRANI", new Date(), false,70));
         //patientRepository.save(new Patient(null, "MUSTAPHA","EL AMRANI", new Date(), true,60));
 
+
+
+
+
         // en utilisant Builder
         Patient patient=Patient.builder()
                 .nom("Imane")
@@ -44,5 +50,18 @@ public class HopitalApplication implements CommandLineRunner {
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    CommandLineRunner commandLineRunner(JdbcUserDetailsManager jdbcUserDetailsManager) {
+        PasswordEncoder passwordEncoder = passwordEncoder();
+        return args -> {
+            jdbcUserDetailsManager.createUser(
+                    User.withUsername("user11").password(passwordEncoder.encode("1234")).roles("USER").build()
+            );
+            jdbcUserDetailsManager.createUser(
+                    User.withUsername("admin11").password(passwordEncoder.encode("1234")).roles("USER","ADMIN").build()
+            );
+
+        };
     }
 }
