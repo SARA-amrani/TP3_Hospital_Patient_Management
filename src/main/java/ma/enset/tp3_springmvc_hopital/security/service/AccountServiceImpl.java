@@ -1,0 +1,73 @@
+package ma.enset.tp3_springmvc_hopital.security.service;
+
+import lombok.AllArgsConstructor;
+import ma.enset.tp3_springmvc_hopital.security.entities.AppRole;
+import ma.enset.tp3_springmvc_hopital.security.entities.AppUser;
+import ma.enset.tp3_springmvc_hopital.security.repository.AppRoleRepository;
+import ma.enset.tp3_springmvc_hopital.security.repository.AppUserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
+
+@Service
+@Transactional
+@AllArgsConstructor
+public class AccountServiceImpl implements AccountService {
+
+    private AppUserRepository appUserRepository;
+    private AppRoleRepository appRoleRepository;
+    private PasswordEncoder passwordEncoder;
+
+    @Override
+    public AppUser addNewUser(String username, String password, String confirmPassword, String email) {
+        AppUser appUser = appUserRepository.findByUsername(username);
+        if (appUser != null) throw new RuntimeException("User already exist !");
+        if (!password.equals(confirmPassword)) throw new RuntimeException("Passwords do not match !");
+        appUser = AppUser.builder()
+                .userId(UUID.randomUUID().toString())
+                .userName(username)
+                .password(passwordEncoder.encode(password))
+                .email(email)
+                .build();
+        AppUser savedAppUser = appUserRepository.save(appUser);
+        return savedAppUser;
+    }
+
+    @Override
+    public AppRole addNewRole(String role) {
+        AppRole appRole= appRoleRepository.findById(role).orElse(null);
+        if (appRole != null) throw new RuntimeException("Role already exist !");
+        appRole=AppRole.builder()
+                .role(role)
+                .build();
+        return appRoleRepository.save(appRole);
+    }
+
+    @Override
+    public void addRoleToUser(String username, String role) {
+        AppUser appUser = appUserRepository.findByUsername(username);
+        if (appUser != null) throw new RuntimeException("User already exist !");
+        AppRole appRole = appRoleRepository.findById(role).get();
+        if (appRole != null) throw new RuntimeException("Role already exist !");
+        appUser.getRoles().add(appRole);
+        //appUserRepository.save(appUser); la methode est transactionnelle c'est pas la peine
+
+    }
+
+    @Override
+    public void removeRoleFromUser(String username, String role) {
+        AppUser appUser = appUserRepository.findByUsername(username);
+        if (appUser != null) throw new RuntimeException("User already exist !");
+        AppRole appRole = appRoleRepository.findById(role).get();
+        if (appRole != null) throw new RuntimeException("Role already exist !");
+        appUser.getRoles().remove(appRole);
+
+    }
+
+    @Override
+    public AppUser loadUserByUsername(String username) {
+        return appUserRepository.findByUsername(username);
+    }
+}
