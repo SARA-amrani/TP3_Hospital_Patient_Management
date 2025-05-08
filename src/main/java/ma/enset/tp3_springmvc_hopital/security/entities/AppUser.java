@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -18,5 +20,5 @@ public class AppUser {
     private String password;
     private String email;
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<AppRole> roles;
+    private Collection<AppRole> roles = new ArrayList<>();
 }

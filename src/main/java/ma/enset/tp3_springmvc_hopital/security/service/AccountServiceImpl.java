@@ -21,13 +21,13 @@ public class AccountServiceImpl implements AccountService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public AppUser addNewUser(String username, String password, String confirmPassword, String email) {
-        AppUser appUser = appUserRepository.findByUsername(username);
+    public AppUser addNewUser(String userName, String password, String confirmPassword, String email) {
+        AppUser appUser = appUserRepository.findByUserName(userName);
         if (appUser != null) throw new RuntimeException("User already exist !");
         if (!password.equals(confirmPassword)) throw new RuntimeException("Passwords do not match !");
         appUser = AppUser.builder()
                 .userId(UUID.randomUUID().toString())
-                .userName(username)
+                .userName(userName)
                 .password(passwordEncoder.encode(password))
                 .email(email)
                 .build();
@@ -46,28 +46,26 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void addRoleToUser(String username, String role) {
-        AppUser appUser = appUserRepository.findByUsername(username);
+    public void addRoleToUser(String userName, String role) {
+        AppUser appUser = appUserRepository.findByUserName(userName);
         if (appUser != null) throw new RuntimeException("User already exist !");
         AppRole appRole = appRoleRepository.findById(role).get();
         if (appRole != null) throw new RuntimeException("Role already exist !");
         appUser.getRoles().add(appRole);
-        //appUserRepository.save(appUser); la methode est transactionnelle c'est pas la peine
+       // appUserRepository.save(appUser); //la methode est transactionnelle c'est pas la peine
 
     }
 
     @Override
-    public void removeRoleFromUser(String username, String role) {
-        AppUser appUser = appUserRepository.findByUsername(username);
-        if (appUser != null) throw new RuntimeException("User already exist !");
+    public void removeRoleFromUser(String userName, String role) {
+        AppUser appUser = appUserRepository.findByUserName(userName);
         AppRole appRole = appRoleRepository.findById(role).get();
-        if (appRole != null) throw new RuntimeException("Role already exist !");
         appUser.getRoles().remove(appRole);
 
     }
 
     @Override
     public AppUser loadUserByUsername(String username) {
-        return appUserRepository.findByUsername(username);
+        return appUserRepository.findByUserName(username);
     }
 }

@@ -2,6 +2,7 @@ package ma.enset.tp3_springmvc_hopital;
 
 import ma.enset.tp3_springmvc_hopital.entities.Patient;
 import ma.enset.tp3_springmvc_hopital.repository.PatientRepository;
+import ma.enset.tp3_springmvc_hopital.security.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -45,7 +46,7 @@ public class HopitalApplication implements CommandLineRunner {
 
     //CommandLineRunner commandLineRunner()
 
-    @Bean
+   // @Bean
     CommandLineRunner commandLineRunner(JdbcUserDetailsManager jdbcUserDetailsManager) {
         PasswordEncoder passwordEncoder = passwordEncoder();
         return args -> {
@@ -66,6 +67,24 @@ public class HopitalApplication implements CommandLineRunner {
             );
 
         };
+    }
+
+   // @Bean
+    CommandLineRunner commandLineRunnerUserDetails(AccountService accountService) {
+        return args -> {
+            accountService.addNewRole("USER");
+            accountService.addNewRole("ADMIN");
+            accountService.addNewUser("user1","1234","1234","user1@gmail.com");
+            accountService.addNewUser("user2","1234","1234","user2@gmail.com");
+            accountService.addNewUser("admin","1234","1234","admin@gmail.com");
+
+            accountService.addRoleToUser("user1","USER");
+            accountService.addRoleToUser("user2","USER");
+            accountService.addRoleToUser("admin","USER");
+            accountService.addRoleToUser("admin","ADMIN");
+
+        };
+
     }
 
     @Bean

@@ -1,5 +1,7 @@
 package ma.enset.tp3_springmvc_hopital.security;
 
+import lombok.AllArgsConstructor;
+import ma.enset.tp3_springmvc_hopital.security.service.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,9 +21,11 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
+@AllArgsConstructor
 public class SecurityConfig {
-    @Autowired
+
     private PasswordEncoder passwordEncoder;
+    private UserDetailServiceImpl userDetailServiceImpl;
 
     //definire les utilisateurs qui peuvent acceder a l'application
 
@@ -29,7 +33,7 @@ public class SecurityConfig {
      * JDBC Authentication : permet de connecter Spring Security à une base de données relationnelle
      * dans laquelle il peut trouver les utilisateurs et leurs rôles.
      */
-    @Bean
+   // @Bean
     public JdbcUserDetailsManager jdbcUserDetailsManager(DataSource dataSource) {
        return new JdbcUserDetailsManager(dataSource);
 
@@ -62,7 +66,11 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/")
                         .permitAll()
                 )
+                .userDetailsService(userDetailServiceImpl)
                 .build();
+
+
+
     }
 
 }
