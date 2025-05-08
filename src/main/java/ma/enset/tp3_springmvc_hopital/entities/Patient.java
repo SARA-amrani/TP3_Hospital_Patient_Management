@@ -18,7 +18,7 @@ public class Patient {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotEmpty
-    @Size(min = 4, max = 40)
+    @Size(min = 3, max = 40)
     private String nom;
     private String prenom;
     @Temporal(TemporalType.DATE)

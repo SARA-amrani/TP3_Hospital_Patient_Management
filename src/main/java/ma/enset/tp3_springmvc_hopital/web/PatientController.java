@@ -25,6 +25,7 @@ public class PatientController {
     @Autowired
     private PatientRepository patientRepository;
 
+    // chercher les patients
     @GetMapping("/user/index")
     public String index(Model model,
                         @RequestParam(name = "page" ,defaultValue = "0") int page,
@@ -56,7 +57,7 @@ public class PatientController {
         return patientRepository.findAll();
     }
 
-    // methode qui permet de retourner une vue
+    // methode qui permet de retourner une vue : formulaire de saisie
     @GetMapping("/formPatient")
     @PreAuthorize("hasRole('ROLE ADMIN')")
     public String formPatient(Model model) {

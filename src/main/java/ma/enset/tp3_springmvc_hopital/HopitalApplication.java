@@ -7,7 +7,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
@@ -26,14 +28,10 @@ public class HopitalApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-       // patientRepository.save(new Patient(null, "SARA","EL AMRANI", new Date(), false,34));
-        //patientRepository.save(new Patient(null, "AYA","EL AMRANI", new Date(), true,55));
-        //patientRepository.save(new Patient(null, "HOUDA","EL AMRANI", new Date(), false,70));
-        //patientRepository.save(new Patient(null, "MUSTAPHA","EL AMRANI", new Date(), true,60));
-
-
-
-
+       // patientRepository.save(new Patient(null, "Imane","Alami", new Date(), false,57));
+        //patientRepository.save(new Patient(null, "Rim","Toto", new Date(), true,55));
+        //patientRepository.save(new Patient(null, "Nezha","Didi", new Date(), false,70));
+        //patientRepository.save(new Patient(null, "Bilal","EL AMRANI", new Date(), true,60));
 
         // en utilisant Builder
         Patient patient=Patient.builder()
@@ -48,20 +46,32 @@ public class HopitalApplication implements CommandLineRunner {
     //CommandLineRunner commandLineRunner()
 
     @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     CommandLineRunner commandLineRunner(JdbcUserDetailsManager jdbcUserDetailsManager) {
         PasswordEncoder passwordEncoder = passwordEncoder();
         return args -> {
-            jdbcUserDetailsManager.createUser(
+            UserDetails u11 = jdbcUserDetailsManager.loadUserByUsername("user11");
+            if(u11==null)
+                jdbcUserDetailsManager.createUser(
                     User.withUsername("user11").password(passwordEncoder.encode("1234")).roles("USER").build()
             );
-            jdbcUserDetailsManager.createUser(
+            UserDetails u22 = jdbcUserDetailsManager.loadUserByUsername("user22");
+            if(u22==null)
+                jdbcUserDetailsManager.createUser(
+                    User.withUsername("user22").password(passwordEncoder.encode("1234")).roles("USER").build()
+            );
+            UserDetails u33 = jdbcUserDetailsManager.loadUserByUsername("admin11");
+            if(u33==null)
+                jdbcUserDetailsManager.createUser(
                     User.withUsername("admin11").password(passwordEncoder.encode("1234")).roles("USER","ADMIN").build()
             );
 
         };
     }
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+
 }

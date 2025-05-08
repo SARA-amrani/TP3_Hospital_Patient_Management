@@ -25,8 +25,11 @@ public class SecurityConfig {
 
     //definire les utilisateurs qui peuvent acceder a l'application
 
-    //JDBC Authentication
-  // @Bean
+    /**
+     * JDBC Authentication : permet de connecter Spring Security à une base de données relationnelle
+     * dans laquelle il peut trouver les utilisateurs et leurs rôles.
+     */
+    @Bean
     public JdbcUserDetailsManager jdbcUserDetailsManager(DataSource dataSource) {
        return new JdbcUserDetailsManager(dataSource);
 
@@ -45,7 +48,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .authorizeHttpRequests(auth -> auth
-                       // .requestMatchers("/user/**").hasRole("USER")
+                        //.requestMatchers("/user/**").hasRole("USER")
                         //.requestMatchers("/admin/**").hasAnyRole("ADMIN", "USER")
                         .requestMatchers("/webjars/**", "/h2-console/**").permitAll()
                         .anyRequest().authenticated()
@@ -64,4 +67,4 @@ public class SecurityConfig {
 
 }
 
- // @Bean : chaque methode utilise Bean c a d il va s'execute au demarrage
+ // @Bean : chaque methode utilise Bean c-a-d il va s'execute au demarrage
