@@ -172,12 +172,19 @@ Déclare les méthodes pour gérer les utilisateurs et les rôles.
 
 ![](captures/BDD.png)
 - patient
+
 ![](captures/patient.png)
+
 - app_user
+
 ![](captures/app_user.png)
+
 - app_role
+
 ![](captures/app_role.png)
+
 - app_user_roles
+
 ![](captures/app_user_roles.png)
 
 ### Templates HTML (Thymeleaf)
