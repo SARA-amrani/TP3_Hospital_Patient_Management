@@ -41,7 +41,7 @@ public class PatientController {
 
     // delete Patient
     @GetMapping("/admin/delete")
-    @PreAuthorize("hasRole('ROLE ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String delete(Long id, String keyword, int page) {
         patientRepository.deleteById(id);
         return "redirect:/user/index?page="+page+"&keyword="+keyword;
@@ -59,7 +59,7 @@ public class PatientController {
 
     // methode qui permet de retourner une vue : formulaire de saisie
     @GetMapping("/formPatient")
-    @PreAuthorize("hasRole('ROLE ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String formPatient(Model model) {
         model.addAttribute("patient", new Patient());
         return "formPatient";
@@ -67,7 +67,7 @@ public class PatientController {
 
     // save Patient
     @PostMapping("/admin/save")
-    @PreAuthorize("hasRole('ROLE ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String save(Model model, @Valid Patient patient, BindingResult bindingResult,
                        @RequestParam(defaultValue = "0") int page,
                        @RequestParam(defaultValue ="") String keyword) {
@@ -79,7 +79,7 @@ public class PatientController {
     // editPatient
 
     @GetMapping("/admin/editPatient")
-    @PreAuthorize("hasRole('ROLE ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String editPatient(Model model, Long id, String keyword, int page) {
         Patient patient = patientRepository.findById(id).orElse(null);
         if (patient == null) throw new RuntimeException("Patient introuvable");

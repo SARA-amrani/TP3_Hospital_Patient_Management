@@ -52,8 +52,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .authorizeHttpRequests(auth -> auth
-                        //.requestMatchers("/user/**").hasRole("USER")
-                        //.requestMatchers("/admin/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers("/user/**").hasRole("USER")
+                        .requestMatchers("/admin/**").hasAnyRole("ADMIN", "USER")
                         .requestMatchers("/webjars/**", "/h2-console/**").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -68,11 +68,7 @@ public class SecurityConfig {
                 )
                 .userDetailsService(userDetailServiceImpl)
                 .build();
-
-
-
     }
-
 }
 
  // @Bean : chaque methode utilise Bean c-a-d il va s'execute au demarrage

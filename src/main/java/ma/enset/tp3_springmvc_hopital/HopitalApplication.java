@@ -44,8 +44,6 @@ public class HopitalApplication implements CommandLineRunner {
                 .build();
     }
 
-    //CommandLineRunner commandLineRunner()
-
    // @Bean
     CommandLineRunner commandLineRunner(JdbcUserDetailsManager jdbcUserDetailsManager) {
         PasswordEncoder passwordEncoder = passwordEncoder();
@@ -65,26 +63,37 @@ public class HopitalApplication implements CommandLineRunner {
                 jdbcUserDetailsManager.createUser(
                     User.withUsername("admin11").password(passwordEncoder.encode("1234")).roles("USER","ADMIN").build()
             );
-
         };
     }
-
-   // @Bean
+    @Bean
     CommandLineRunner commandLineRunnerUserDetails(AccountService accountService) {
         return args -> {
-            accountService.addNewRole("USER");
-            accountService.addNewRole("ADMIN");
-            accountService.addNewUser("user1","1234","1234","user1@gmail.com");
-            accountService.addNewUser("user2","1234","1234","user2@gmail.com");
-            accountService.addNewUser("admin","1234","1234","admin@gmail.com");
+            try {
+                accountService.addNewRole("USER");
+            } catch (RuntimeException e) {
+                System.out.println("Role USER already exists.");
+            }
 
-            accountService.addRoleToUser("user1","USER");
-            accountService.addRoleToUser("user2","USER");
-            accountService.addRoleToUser("admin","USER");
-            accountService.addRoleToUser("admin","ADMIN");
+            try {
+                accountService.addNewRole("ADMIN");
+            } catch (RuntimeException e) {
+                System.out.println("Role ADMIN already exists.");
+            }
 
+            if (accountService.loadUserByUsername("user1") == null)
+                accountService.addNewUser("user1", "1234", "1234", "user1@gmail.com");
+
+            if (accountService.loadUserByUsername("user2") == null)
+                accountService.addNewUser("user2", "1234", "1234", "user2@gmail.com");
+
+            if (accountService.loadUserByUsername("admin") == null)
+                accountService.addNewUser("admin", "1234", "1234", "admin@gmail.com");
+
+            accountService.addRoleToUser("user1", "USER");
+            accountService.addRoleToUser("user2", "USER");
+            accountService.addRoleToUser("admin", "USER");
+            accountService.addRoleToUser("admin", "ADMIN");
         };
-
     }
 
     @Bean

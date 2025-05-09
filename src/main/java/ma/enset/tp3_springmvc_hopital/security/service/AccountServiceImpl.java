@@ -48,9 +48,9 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void addRoleToUser(String userName, String role) {
         AppUser appUser = appUserRepository.findByUserName(userName);
-        if (appUser != null) throw new RuntimeException("User already exist !");
-        AppRole appRole = appRoleRepository.findById(role).get();
-        if (appRole != null) throw new RuntimeException("Role already exist !");
+        if (appUser == null) throw new RuntimeException("User already exist !");
+        AppRole appRole = appRoleRepository.findById(role).orElse(null);
+        if (appRole == null) throw new RuntimeException("Role already exist !");
         appUser.getRoles().add(appRole);
        // appUserRepository.save(appUser); //la methode est transactionnelle c'est pas la peine
 
