@@ -31,7 +31,7 @@ Créer une application web de gestion des patients en utilisant Spring Boot, ave
 - Sécurité avec Spring Security
 - Authentification via Spring Security
 - Différenciation des rôles : USER, ADMIN
-- 
+
 ---
 ## Technologies utilisées
 
@@ -169,6 +169,16 @@ Déclare les méthodes pour gérer les utilisateurs et les rôles.
 #### `application.properties`
 > Contient la configuration de la connexion à la base de données, le port du serveur, les paramètres Spring Security, etc.
 ![](captures/photo19.png)
+
+![](captures/BDD.png)
+- patient
+![](captures/patient.png)
+- app_user
+![](captures/app_user.png)
+- app_role
+![](captures/app_role.png)
+- app_user_roles
+![](captures/app_user_roles.png)
 
 ### Templates HTML (Thymeleaf)
 - Situés dans src/main/resources/templates, ils sont utilisés pour afficher l’interface utilisateur :
