@@ -10,11 +10,9 @@
 - [Objectif](#objectif)
 - [Technologies utilisées](#technologies-utilisées)
 - [Architecture du projet](#architecture-du-projet)
-- [Structure du projet](#-structure-du-projet)
-- [Fonctionnalités](#-fonctionnalités)
-- [Explication des composants](#-explication-des-composants)
-- [Lancer l'application](#-lancer-lapplication)
-- [Conclusion](#-conclusion)
+- [Explication des composants](#explication-des-composants)
+- [Aperçu de l'application](#aperçu-de-lapplication)
+- [Conclusion](#conclusion)
 
 ---
 ## Introduction
